@@ -1,4 +1,6 @@
 from fastapi import FastAPI, status, HTTPException
+import requests
+import json
 from pydantic import BaseModel
 from typing import Optional, List
 from database import SessionLocal
@@ -78,3 +80,12 @@ async def delete_an_item(item_id: int):
     db.delete(item_to_delete)
     db.commit()
     return {"message": "Item deleted successfully"}
+
+
+# create a proxy api endpoint to redirect to external api and return the response
+@app.get("/proxy")
+async def proxy(ext_api: str, ext_api_key: str = None):    
+    headers = {"Authorization": f"Bearer {ext_api_key}"}
+    response = requests.get(ext_api, headers=headers)
+    return response.json()
+

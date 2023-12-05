@@ -11,3 +11,15 @@ class Item(Base):
 
     def __repr__(self):
         return f"Item(name={self.name}, description={self.description}, price={self.price}, on_offer={self.on_offer})"
+    
+
+# create user class
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String(50), unique=True, index=True)
+    email = Column(String(50), unique=True, index=True)
+    password = Column(String(50), nullable=False)
+
+    def __repr__(self):
+        return f"User(username={self.username}, email={self.email}, password={self.password})"
